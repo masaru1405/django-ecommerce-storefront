@@ -1,6 +1,11 @@
 <html>
    <body>
-      <h1>Hello {{name}}</h1>
+      <h1>Products</h1>
+      <ul>
+         {% for product in products %}
+            <li>{{product}}</li>
+         {% endfor %}
+      </ul>
    </body>
 </html>
 
