@@ -5,6 +5,7 @@ from django.urls import reverse
 
 from . import models
 
+#Classe que irá filtrar os produtos com menos de 10 itens no estoque
 class InventoryFilter(admin.SimpleListFilter):
    title = 'inventory'
    parameter_name = 'inventory'
@@ -29,6 +30,7 @@ class ProductAdmin(admin.ModelAdmin):
    prepopulated_fields = {
       'slug': ['title']
    }
+   search_fields = ['title']
 
    def collection_title(self, product):
       return product.collection.title
@@ -53,10 +55,19 @@ class CustomerAdmin(admin.ModelAdmin):
    ordering = ['first_name', 'last_name']
    search_fields = ['first_name__istartswith', 'last_name__istartswith']
 
+
 #Order
+class OrderItemInline(admin.TabularInline):
+   autocomplete_fields = ['product']
+   min_num = 1
+   max_num = 10
+   model = models.OrderItem
+   extra = 0
+
 @admin.register(models.Order)
 class OrderAdmin(admin.ModelAdmin):
    autocomplete_fields = ['customer']
+   inlines = [OrderItemInline]
    list_display = ['id', 'placed_at', 'customer']
 
 #Collection
