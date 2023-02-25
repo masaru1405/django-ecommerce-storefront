@@ -21,3 +21,5 @@ class ProductSerializer(serializers.ModelSerializer):
 
    def calculate_tax(self, product: Product):
       return product.price * Decimal(1.1)
+
+
